@@ -1,0 +1,26 @@
+.cat-card {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cat-card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.cat-name {
+  color: #333;
+  margin: 0 0 8px 0;
+}
+
+.cat-details {
+  color: #333;
+}
+
+.cat-details p {
+  margin: 4px 0;
+}

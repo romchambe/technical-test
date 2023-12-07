@@ -2,11 +2,12 @@ import { Component, OnInit } from "@angular/core";
 import { CatService } from "../cat.service";
 import { Cat } from "../cat.model";
 import { CommonModule } from "@angular/common";
+import { CatCardComponent } from "../cat-card/cat-card.component";
 
 @Component({
   selector: "app-cat-list",
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CatCardComponent],
   templateUrl: "./cat-list.component.html",
   styleUrl: "./cat-list.component.css",
 })
@@ -21,7 +22,6 @@ export class CatListComponent implements OnInit {
       if (results) {
         this.cats = results;
       }
-
     });
   }
 }
