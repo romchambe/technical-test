@@ -1,0 +1,17 @@
+nav {
+  padding: 10px 0;
+  background-color: #f8f8f8;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+nav a {
+  padding: 10px;
+  text-decoration: none;
+  color: #007bff;
+  cursor: pointer;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
