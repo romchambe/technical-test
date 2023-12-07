@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Cat } from "./cat.model";
 import { PaginatedList } from '../api/utils';
@@ -17,7 +17,14 @@ export class CatService {
     return this.http.post<Cat>(this.catsUrl + '/', cat);
   }
 
-  getCats(): Observable<PaginatedList<Cat>> {
-    return this.http.get<PaginatedList<Cat>>(this.catsUrl);
+  getCats(page: number, breed?: string): Observable<PaginatedList<Cat>> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+
+    if (breed) {
+      params = params.set('breed', breed);
+    }
+
+    return this.http.get<PaginatedList<Cat>>(this.catsUrl, { params });
   }
 }
