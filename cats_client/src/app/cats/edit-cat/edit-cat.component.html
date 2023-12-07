@@ -1,0 +1,4 @@
+<div class="modal-container">
+  <h2>Editing: {{ cat.name }}</h2>
+  <app-cat-form [cat]="cat" (formSubmit)="onSave($event)"></app-cat-form>
+</div>

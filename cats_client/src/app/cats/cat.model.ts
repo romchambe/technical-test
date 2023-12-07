@@ -1,5 +1,8 @@
 export interface Cat {
-  name: string;
-  breed: string;
-  birthday: Date;
+  id: number
+  name: string
+  breed: string
+  birthday: Date
 }
+
+export type CatWithoutId = Omit<Cat, 'id'>

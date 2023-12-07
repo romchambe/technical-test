@@ -17,7 +17,7 @@ class CatSerializer(ModelSerializer):
 
     class Meta:
         model = Cat
-        fields = ("name", "breed", "description", "birthday", "avg_rating")
+        fields = ("id", "name", "breed", "description", "birthday", "avg_rating")
 
 
 class CommentSerializer(ModelSerializer):

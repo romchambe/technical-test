@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Cat } from "./cat.model";
+import { Cat, CatWithoutId } from "./cat.model";
 import { PaginatedList } from '../api/utils';
 
 @Injectable({
@@ -13,8 +13,12 @@ export class CatService {
 
   constructor(private http: HttpClient) { }
 
-  createCat(cat: Cat): Observable<Cat> {
+  createCat(cat: CatWithoutId): Observable<CatWithoutId> {
     return this.http.post<Cat>(this.catsUrl + '/', cat);
+  }
+
+  updateCat(cat: Cat): Observable<CatWithoutId> {
+    return this.http.patch<Cat>(this.catsUrl + '/' + cat.id + '/', cat);
   }
 
   getCats(page: number, breed?: string): Observable<PaginatedList<Cat>> {

@@ -40,9 +40,10 @@ export class CatListComponent implements OnInit {
     this.catService.getCats(this.currentPage, breed).subscribe(
       ({ results, next }) => {
         this.noNext = !next
-        console.log(this.noNext)
+
         if (results) {
-          this.cats = results;
+          console.log(results)
+          this.cats = results
         }
       },
       (error) => console.error(error)

@@ -1,17 +1,34 @@
-import { Component } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { CatService } from "../cat.service";
 import { Cat } from "../cat.model";
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+
+
+
+
+
+export const DATE_FORMATS = {
+  parse: {
+    dateInput: 'YYYY-MM-DD',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+  },
+};
 
 @Component({
   selector: "app-cat-form",
   standalone: true,
   templateUrl: "./cat-form.component.html",
   styleUrls: ["./cat-form.component.css"],
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, MatButtonModule, MatInputModule,],
 })
-export class CatFormComponent {
+export class CatFormComponent implements OnInit {
+  @Input() cat?: Cat
+  @Output() formSubmit = new EventEmitter<Cat>();
   catForm: FormGroup;
 
   constructor(private fb: FormBuilder, private catService: CatService) {
@@ -21,19 +38,16 @@ export class CatFormComponent {
       birthday: ["", Validators.required],
     });
   }
+  ngOnInit(): void {
+    if (this.cat) {
+      // Prepopulate the form if we're in edit mode
+      this.catForm.patchValue(this.cat);
+    }
+  }
 
   onSubmit(): void {
     if (this.catForm.valid) {
-      const newCat: Cat = this.catForm.value;
-      this.catService.createCat(newCat).subscribe(
-        (response) => {
-          console.log("Cat created:", response);
-          this.catForm.reset(); // reset the form after submitting
-        },
-        (error) => {
-          console.error("Error creating cat:", error);
-        }
-      );
+      this.formSubmit.emit(this.catForm.value);
     }
   }
 }

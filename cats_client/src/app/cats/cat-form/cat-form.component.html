@@ -1,18 +1,25 @@
 <form [formGroup]="catForm" (ngSubmit)="onSubmit()">
   <div>
-    <label for="name">Name:</label>
-    <input type="text" id="name" formControlName="name" />
+    <mat-form-field>
+      <mat-label>Name : </mat-label>
+      <input formControlName="name" matInput placeholder="Felix">
+    </mat-form-field>
+
   </div>
 
   <div>
-    <label for="breed">Breed:</label>
-    <input type="text" id="breed" formControlName="breed" />
+    <mat-form-field>
+      <mat-label>Breed : </mat-label>
+      <input formControlName="breed" matInput placeholder="Tiger">
+    </mat-form-field>
   </div>
 
   <div>
-    <label for="birthday">Birthday:</label>
-    <input type="date" id="birthday" formControlName="birthday" />
+    <mat-form-field>
+      <label for="birthday">Birthday:</label>
+      <input type="date" matInput formControlName="birthday" />
+    </mat-form-field>
   </div>
 
-  <button type="submit" [disabled]="!catForm.valid">Create Cat</button>
+  <button mat-flat-button color="primary" type="submit" [disabled]="!catForm.valid">Create Cat</button>
 </form>
