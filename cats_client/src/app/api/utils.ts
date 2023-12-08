@@ -4,3 +4,5 @@ export interface PaginatedList<T> {
   previous: string | null
   results: T[] | null
 }
+
+export const EMPTY_PAGINATED_RESPONSE = { count: 0, next: null, previous: null, results: [] }

@@ -7,7 +7,7 @@
       </mat-form-field>
     </form>
     <div>
-      <button mat-flat-button color="primary" (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+      <button mat-flat-button color="primary" (click)="previousPage()" [disabled]="noPrevious">Previous</button>
       <button mat-flat-button color="primary" (click)="nextPage()" [disabled]="noNext">Next</button>
     </div>
   </div>

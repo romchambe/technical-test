@@ -15,11 +15,9 @@ export class CreateCatComponent {
 
   onSave(createdCat: CatWithoutId): void {
     this.catService.createCat(createdCat).subscribe(
-      (response) => {
-        console.log("Cat created:", response);
-      },
-      (error) => {
-        console.error("Error creating cat:", error);
+      {
+        next: console.log,
+        error: console.error
       }
     );
   }

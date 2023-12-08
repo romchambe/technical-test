@@ -1,23 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { CatService } from "../cat.service";
 import { Cat } from "../cat.model";
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-
-
-
-
-
-export const DATE_FORMATS = {
-  parse: {
-    dateInput: 'YYYY-MM-DD',
-  },
-  display: {
-    dateInput: 'DD/MM/YYYY',
-  },
-};
 
 @Component({
   selector: "app-cat-form",
@@ -31,7 +17,7 @@ export class CatFormComponent implements OnInit {
   @Output() formSubmit = new EventEmitter<Cat>();
   catForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private catService: CatService) {
+  constructor(private fb: FormBuilder) {
     this.catForm = this.fb.group({
       name: ["", Validators.required],
       breed: ["", Validators.required],

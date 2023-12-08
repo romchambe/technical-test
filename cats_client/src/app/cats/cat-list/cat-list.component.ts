@@ -17,9 +17,8 @@ import { MatButtonModule } from '@angular/material/button';
 export class CatListComponent implements OnInit {
   cats: Cat[] = [];
   filterForm: FormGroup;
-  currentPage = 1;
   noNext = true;
-
+  noPrevious = true
   constructor(private catService: CatService, private fb: FormBuilder) {
     this.filterForm = this.fb.group({
       breed: [""],
@@ -27,37 +26,36 @@ export class CatListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadCats();
+    this.catService.catsList$.subscribe({
+      next: ({ results, next, previous }) => {
+        this.noNext = !next
+        this.noPrevious = !previous
+
+        if (results) {
+          this.cats = results;
+        }
+      }
+    });
+
+    this.catService.getCats()
 
     // Load filtered data when value changes
-    this.filterForm.get("breed")?.valueChanges.subscribe((breed) => {
-      this.currentPage = 1; // Reset to the first page
-      this.loadCats(breed);
+    this.filterForm.get("breed")?.valueChanges.subscribe({
+      next: (breed) => {
+        this.catService.updateBreedFilter(breed)
+        this.catService.getCats()
+      }
     });
   }
 
-  loadCats(breed?: string): void {
-    this.catService.getCats(this.currentPage, breed).subscribe(
-      ({ results, next }) => {
-        this.noNext = !next
-
-        if (results) {
-          console.log(results)
-          this.cats = results
-        }
-      },
-      (error) => console.error(error)
-    );
-  }
-
   nextPage(): void {
-    this.currentPage++;
-    this.loadCats(this.filterForm.value.breed);
+    this.catService.updatePageParam(this.catService.currentPage++);
+    this.catService.getCats()
   }
 
   previousPage(): void {
-    this.currentPage--;
-    this.loadCats(this.filterForm.value.breed);
+    this.catService.updatePageParam(this.catService.currentPage--);
+    this.catService.getCats()
   }
 }
 

@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { Cat, CatWithoutId } from "./cat.model";
-import { PaginatedList } from '../api/utils';
+import { EMPTY_PAGINATED_RESPONSE, PaginatedList } from '../api/utils';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CatService {
-
+  private catsListSubject = new BehaviorSubject<PaginatedList<Cat>>(EMPTY_PAGINATED_RESPONSE);
+  catsList$ = this.catsListSubject.asObservable();
   private catsUrl = "http://localhost:8000/v1/cats";
+  currentPage: number = 1;
+  breedFilter: string | undefined
 
   constructor(private http: HttpClient) { }
 
@@ -21,14 +24,27 @@ export class CatService {
     return this.http.patch<Cat>(this.catsUrl + '/' + cat.id + '/', cat);
   }
 
-  getCats(page: number, breed?: string): Observable<PaginatedList<Cat>> {
+  getCats(): void {
     let params = new HttpParams()
-      .set('page', page.toString())
+      .set('page', this.currentPage.toString())
 
-    if (breed) {
-      params = params.set('breed', breed);
+    if (this.breedFilter) {
+      params = params.set('breed', this.breedFilter);
     }
 
-    return this.http.get<PaginatedList<Cat>>(this.catsUrl, { params });
+    this.http.get<PaginatedList<Cat>>(this.catsUrl, { params }).subscribe({
+      next: cats => {
+        this.catsListSubject.next(cats)
+      }
+    })
+  }
+
+  updatePageParam(currentPage: number) {
+    this.currentPage = currentPage
+  }
+
+  updateBreedFilter(breed?: string) {
+    this.currentPage = 1
+    this.breedFilter = !!breed ? breed : undefined
   }
 }

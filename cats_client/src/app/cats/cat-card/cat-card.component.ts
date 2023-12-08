@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, } from '@angular/core';
 import { Cat } from '../cat.model';
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { EditCatComponent } from '../edit-cat/edit-cat.component';
@@ -11,17 +11,12 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './cat-card.component.html',
   styleUrl: './cat-card.component.css'
 })
-export class CatCardComponent implements OnInit {
+export class CatCardComponent {
   @Input() cat!: Cat;
 
   constructor(public dialog: MatDialog) { }
 
-  ngOnInit(): void {
-    console.log(this.cat)
-  }
-
   openEditDialog(): void {
-    console.log(this.cat)
     this.dialog.open(EditCatComponent, {
       data: this.cat,
     });
